@@ -42,25 +42,34 @@ public class BlogController {
 		// 모든 카테고리 데이터
 		List<CategoryVo> categoryList = blogService.getCategoriesById(blogId);
 
+		List<PostVo> postList = null;
+		
+		// 카테고리번호
 		if(categoryNo.isPresent()) {
-			// 해당 카테고리의 포스트 리스트
-			List<PostVo> postList = blogService.getPostsByCategory(categoryNo.get());
-			
-			// CategoryNo만 있고 PostNo 없을 때 Default Post 지정해줌
-			if(!postNo.isPresent() && postList.size()>0) {
-				PostVo post = blogService.getPostByNo(postList.get(0).getNo());
-				model.addAttribute("post", post);
-			}
-			
-			model.addAttribute("postList", postList);
-			model.addAttribute("categoryNo", categoryNo.get());
+			postList = blogService.getPostsByCategory(categoryNo.get());
 		}
+		else {
+			// categoryNo 없을 때 default 카테고리 지정 후 postList 가져옴
+			if(categoryList.size() > 0) {
+				categoryNo = Optional.of(categoryList.get(0).getNo());
+				postList = blogService.getPostsByCategory(categoryList.get(0).getNo());
+			}
+		}
+		
+		// 포스트 번호
 		if(postNo.isPresent()) {
-			// 해당 포스트 데이터
 			PostVo post = blogService.getPostByNo(postNo.get());
 			model.addAttribute("post", post);
 		}
-		
+		else {
+			// PostNo 없을 때 default Post 지정
+			if (postList.size() > 0) {
+				PostVo post = blogService.getPostByNo(postList.get(0).getNo());
+				model.addAttribute("post", post);
+			}
+		}
+		model.addAttribute("categoryNo", categoryNo.get());
+		model.addAttribute("postList", postList);
 		model.addAttribute("blog", blogVo);
 		model.addAttribute("categoryList", categoryList);
 		
