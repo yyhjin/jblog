@@ -12,7 +12,7 @@
 </head>
 <body>
 	<div class="center-content">
-		<c:import url="/WEB-INF/views/includes/navigation.jsp"/>
+		<c:import url="/WEB-INF/views/includes/main-header.jsp"/>
 		
 		<form class="login-form" method="post" action="${pageContext.request.contextPath}/user/auth">
       		<label>아이디</label> 
