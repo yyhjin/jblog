@@ -32,7 +32,7 @@
 						<tr>
 							<td>${count - status.index}</td>
 							<td>${vo.name }</td>
-							<td>10</td>
+							<td>${vo.postCount }</td>
 							<td>${vo.description }</td>
 							<td>
 								<a href="${pageContext.request.contextPath}/${blog.blogId }/admin/delete/${vo.no}">

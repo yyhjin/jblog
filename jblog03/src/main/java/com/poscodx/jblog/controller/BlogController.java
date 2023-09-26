@@ -78,9 +78,6 @@ public class BlogController {
 	
 	@RequestMapping("/admin/basic")
 	public String adminBasic(@PathVariable("id") String blogId, Model model) {  // 기본 컨트롤러 매핑에 blogId 있으므로 얘 꼭 있어야함
-		
-		/* 블로그 주인 아닐떄 인터셉터 처리, admin 다 빼야겠다 */
-		
 		BlogVo blogVo = blogService.getBlog(blogId);
 		model.addAttribute("blog", blogVo);
 		
@@ -88,10 +85,7 @@ public class BlogController {
 	}
 	
 	@RequestMapping("/admin/category")
-	public String adminCategory(@PathVariable("id") String blogId, Model model) {
-		
-		/* 블로그 주인 아닐떄 인터셉터 처리 */
-		
+	public String adminCategory(@PathVariable("id") String blogId, Model model) {		
 		BlogVo blogVo = blogService.getBlog(blogId);
 		model.addAttribute("blog", blogVo);
 		
@@ -103,9 +97,6 @@ public class BlogController {
 	
 	@RequestMapping(value="/admin/category", method=RequestMethod.POST)
 	public String adminCategory(@PathVariable("id") String blogId, CategoryVo categoryVo) {
-		
-		/* 블로그 주인 아닐떄 인터셉터 처리 */
-		
 		categoryVo.setBlogId(blogId);
 		blogService.addCategory(categoryVo);
 		
@@ -114,9 +105,6 @@ public class BlogController {
 	
 	@RequestMapping("/admin/write")
 	public String adminWrite(@PathVariable("id") String blogId, Model model) {
-		
-		/* 블로그 주인 아닐떄 인터셉터 처리 */
-		
 		List<CategoryVo> category = blogService.getCategoriesById(blogId);
 		model.addAttribute("category", category);
 		
@@ -128,18 +116,13 @@ public class BlogController {
 	
 	@RequestMapping(value="/admin/write", method=RequestMethod.POST)
 	public String adminWrite(@PathVariable("id") String blogId, PostVo postVo) {
-		
-		/* 블로그 주인 아닐떄 인터셉터 처리 */
-		
 		blogService.addPost(postVo);
 		return "redirect:/"+blogId;
 	}
 	
 	@RequestMapping("/admin/delete/{no}")
 	public String adminDeleteCategory (@PathVariable("id") String blogId, @PathVariable Long no) {
-		
-		/* 블로그 주인 아닐떄 인터셉터 처리 */
-		
+		blogService.removePosts(no);
 		blogService.removeCategory(no);
 		return "redirect:/"+blogId+"/admin/category";
 	}

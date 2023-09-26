@@ -1,7 +1,6 @@
 package com.poscodx.jblog.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,6 +54,10 @@ public class BlogService {
 
 	public PostVo getPostByNo(Long postNo) {
 		return blogRepository.findPostByPostNo(postNo);
+	}
+
+	public boolean removePosts(Long categoryNo) {
+		return blogRepository.deletePostsByCategoryNo(categoryNo);
 	}
 	
 }

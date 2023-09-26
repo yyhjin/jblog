@@ -56,4 +56,9 @@ public class BlogRepository {
 	public PostVo findPostByPostNo(Long postNo) {
 		return sqlSession.selectOne("blog.findPostByPostNo", postNo);
 	}
+
+	public boolean deletePostsByCategoryNo(Long categoryNo) {
+		int count = sqlSession.delete("blog.deletePostsByCategoryNo", categoryNo);
+		return count >= 0;
+	}
 }
