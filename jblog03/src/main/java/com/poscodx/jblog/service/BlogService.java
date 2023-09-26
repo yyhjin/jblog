@@ -56,8 +56,8 @@ public class BlogService {
 		return blogRepository.findPostByPostNo(postNo);
 	}
 
-	public boolean removePosts(Long categoryNo) {
-		return blogRepository.deletePostsByCategoryNo(categoryNo);
+	public void removePosts(Long categoryNo) {
+		blogRepository.deletePostsByCategoryNo(categoryNo);
 	}
 	
 }

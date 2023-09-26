@@ -1,7 +1,6 @@
 package com.poscodx.jblog.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,8 +56,7 @@ public class BlogRepository {
 		return sqlSession.selectOne("blog.findPostByPostNo", postNo);
 	}
 
-	public boolean deletePostsByCategoryNo(Long categoryNo) {
-		int count = sqlSession.delete("blog.deletePostsByCategoryNo", categoryNo);
-		return count >= 0;
+	public void deletePostsByCategoryNo(Long categoryNo) {
+		sqlSession.delete("blog.deletePostsByCategoryNo", categoryNo);
 	}
 }
