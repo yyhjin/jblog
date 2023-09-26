@@ -63,7 +63,7 @@ public class BlogController {
 		}
 		else {
 			// PostNo 없을 때 default Post 지정
-			if (postList.size() > 0) {
+			if (postList != null && postList.size() > 0) {
 				PostVo post = blogService.getPostByNo(postList.get(0).getNo());
 				model.addAttribute("post", post);
 			}

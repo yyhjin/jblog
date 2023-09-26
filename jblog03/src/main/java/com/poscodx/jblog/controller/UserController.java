@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.poscodx.jblog.service.BlogService;
 import com.poscodx.jblog.service.UserService;
+import com.poscodx.jblog.vo.CategoryVo;
 import com.poscodx.jblog.vo.UserVo;
 
 
@@ -32,6 +33,13 @@ public class UserController {
 	public String join(@ModelAttribute UserVo userVo) {
 		if(userService.addUser(userVo)) {
 			blogService.addBlog(userVo);
+			
+			CategoryVo categoryVo = new CategoryVo();
+			categoryVo.setBlogId(userVo.getId());
+			categoryVo.setName("(미분류)");
+			categoryVo.setDescription("(미분류)");
+			
+			blogService.addCategory(categoryVo);
 			return "redirect:/user/joinsuccess";			
 		}
 		
