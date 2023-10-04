@@ -1,20 +1,9 @@
 package com.poscodx.jblog.vo;
 
-import javax.validation.constraints.NotEmpty;
-
-import org.hibernate.validator.constraints.Length;
-
 public class CategoryVo {
 	private Long no;
-	
-	@NotEmpty
-	@Length(min=1, max=20)
 	private String name;
-	
-	@NotEmpty
-	@Length(min=2, max=40)
 	private String description;
-	
 	private String blogId;
 	private int postCount;
 	
