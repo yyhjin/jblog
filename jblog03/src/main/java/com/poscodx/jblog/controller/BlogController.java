@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.poscodx.jblog.service.BlogService;
+import com.poscodx.jblog.service.CategoryService;
 import com.poscodx.jblog.service.FileUploadService;
+import com.poscodx.jblog.service.PostService;
 import com.poscodx.jblog.vo.BlogVo;
 import com.poscodx.jblog.vo.CategoryVo;
 import com.poscodx.jblog.vo.PostVo;
@@ -23,6 +25,12 @@ import com.poscodx.jblog.vo.PostVo;
 public class BlogController {
 	@Autowired
 	private BlogService blogService;
+	
+	@Autowired
+	private CategoryService categoryService;
+	
+	@Autowired
+	private PostService postService;
 	
 	@Autowired
 	private FileUploadService fileUploadService;
@@ -39,31 +47,31 @@ public class BlogController {
 		BlogVo blogVo = blogService.getBlog(blogId);
 		
 		// 모든 카테고리 데이터
-		List<CategoryVo> categoryList = blogService.getCategoriesById(blogId);
+		List<CategoryVo> categoryList = categoryService.getCategoriesById(blogId);
 
 		List<PostVo> postList = null;
 		
 		// 카테고리번호
 		if(categoryNo.isPresent()) {
-			postList = blogService.getPostsByCategory(categoryNo.get());
+			postList = postService.getPostsByCategory(categoryNo.get());
 		}
 		else {
 			// categoryNo 없을 때 default 카테고리 지정 후 postList 가져옴
 			if(categoryList.size() > 0) {
 				categoryNo = Optional.of(categoryList.get(0).getNo());
-				postList = blogService.getPostsByCategory(categoryList.get(0).getNo());
+				postList = postService.getPostsByCategory(categoryList.get(0).getNo());
 			}
 		}
 		
 		// 포스트 번호
 		if(postNo.isPresent()) {
-			PostVo post = blogService.getPostByNo(postNo.get());
+			PostVo post = postService.getPostByNo(postNo.get());
 			model.addAttribute("post", post);
 		}
 		else {
 			// PostNo 없을 때 default Post 지정
 			if (postList != null && postList.size() > 0) {
-				PostVo post = blogService.getPostByNo(postList.get(0).getNo());
+				PostVo post = postService.getPostByNo(postList.get(0).getNo());
 				model.addAttribute("post", post);
 			}
 		}
@@ -88,7 +96,7 @@ public class BlogController {
 		BlogVo blogVo = blogService.getBlog(blogId);
 		model.addAttribute("blog", blogVo);
 		
-		List<CategoryVo> category = blogService.getCategoriesById(blogId);
+		List<CategoryVo> category = categoryService.getCategoriesById(blogId);
 		model.addAttribute("category", category);
 		
 		return "blog/admin-category";
@@ -97,14 +105,14 @@ public class BlogController {
 	@RequestMapping(value="/admin/category", method=RequestMethod.POST)
 	public String adminCategory(@PathVariable("id") String blogId, CategoryVo categoryVo) {
 		categoryVo.setBlogId(blogId);
-		blogService.addCategory(categoryVo);
+		categoryService.addCategory(categoryVo);
 		
 		return "redirect:/"+blogId+"/admin/category";
 	}
 	
 	@RequestMapping("/admin/write")
 	public String adminWrite(@PathVariable("id") String blogId, Model model) {
-		List<CategoryVo> category = blogService.getCategoriesById(blogId);
+		List<CategoryVo> category = categoryService.getCategoriesById(blogId);
 		model.addAttribute("category", category);
 		
 		BlogVo blogVo = blogService.getBlog(blogId);
@@ -115,14 +123,14 @@ public class BlogController {
 	
 	@RequestMapping(value="/admin/write", method=RequestMethod.POST)
 	public String adminWrite(@PathVariable("id") String blogId, PostVo postVo) {
-		blogService.addPost(postVo);
+		postService.addPost(postVo);
 		return "redirect:/"+blogId;
 	}
 	
 	@RequestMapping("/admin/delete/{no}")
 	public String adminDeleteCategory (@PathVariable("id") String blogId, @PathVariable Long no) {
-		blogService.removePosts(no);
-		blogService.removeCategory(no);
+		postService.removePosts(no);
+		categoryService.removeCategory(no);
 		return "redirect:/"+blogId+"/admin/category";
 	}
 	

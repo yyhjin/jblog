@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.poscodx.jblog.service.BlogService;
+import com.poscodx.jblog.service.CategoryService;
 import com.poscodx.jblog.service.UserService;
 import com.poscodx.jblog.vo.CategoryVo;
 import com.poscodx.jblog.vo.UserVo;
@@ -23,6 +24,9 @@ public class UserController {
 	
 	@Autowired
 	private BlogService blogService;
+	
+	@Autowired
+	private CategoryService categoryService;
 
 	@RequestMapping(value="/join", method=RequestMethod.GET)
 	public String join() {
@@ -39,7 +43,7 @@ public class UserController {
 			categoryVo.setName("(미분류)");
 			categoryVo.setDescription("(미분류)");
 			
-			blogService.addCategory(categoryVo);
+			categoryService.addCategory(categoryVo);
 			return "redirect:/user/joinsuccess";			
 		}
 		

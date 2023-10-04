@@ -19,7 +19,7 @@
 			
 			<label class="block-label" for="blog-id">아이디</label>
 			<input id="blog-id" name="id" type="text"> 
-			<input id="btn-checkemail" type="button" value="id 중복체크">
+			<input id="btn-checkemail" type="button" value="id 중복체크" >
 			<img id="img-checkemail" style="display: none;" src="${pageContext.request.contextPath}/assets/images/check.png">
 
 			<label class="block-label" for="password">패스워드</label>
