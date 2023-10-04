@@ -41,8 +41,6 @@ public class BlogController {
 						@PathVariable Optional<Long> postNo,
 						Model model) {
 		
-		/* 없는 블로그 계정일 때 처리 해줘야될듯, 페이지 처리? 인터셉터로 하나? exception? */
-		
 		// 블로그 기본 정보
 		BlogVo blogVo = blogService.getBlog(blogId);
 		
