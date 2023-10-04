@@ -104,6 +104,7 @@ public class BlogController {
 	
 	@RequestMapping(value="/admin/category", method=RequestMethod.POST)
 	public String adminCategory(@PathVariable("id") String blogId, CategoryVo categoryVo) {
+		
 		categoryVo.setBlogId(blogId);
 		categoryService.addCategory(categoryVo);
 		
